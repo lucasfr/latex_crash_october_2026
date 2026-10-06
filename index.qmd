@@ -6,48 +6,117 @@ format:
   revealjs:
     theme: [default, custom.scss]
     logo: Northumbria_University_Logo.png
+    width: 1280
+    height: 720
+    margin: 0.04
+    slide-number: true
+    code-line-numbers: true
 title-slide-attributes:
     data-background-video: cover.mp4
     data-background-video-loop: true
     data-background-video-muted: true
     data-background-size: cover
     data-background-opacity: "0.3"
-    data-footer: March 5th, 2024
-footer: '$\LaTeX$: a crash course - Dr Lucas França'
+    data-footer: October 2026
+footer: 'LaTeX: a crash course - Dr Lucas França'
 include-after-body: add-custom-footer.html
 highlight-style: atom-one
+# Background images are applied by bg.lua. Add one of these classes to a
+# level-1 heading:  {.bg-print}  {.bg-printers}  {.bg-typer}
+filters:
+  - bg.lua
 ---
 
-# WYSIWYG {auto-animate="true" background-color="white" background-image="print.jpeg" background-opacity="0.2" background-size="cover"}
-
-# What You See Is What You Get {auto-animate="true" background-color="white" background-image="print.jpeg" background-opacity="0.2" background-size="cover"}
+# What You See Is What You Get {.bg-print}
 
 ::: incremental
--   Word processors like
+-   **WYSIWYG** word processors show the final layout as you type
+-   Examples:
     -   Microsoft Word
     -   LibreOffice
     -   Google Docs
     -   Apple Pages
+
 :::
 
-# $\LaTeX$ {auto-animate="true" background-color="white" background-image="printers.jpeg" background-opacity="0.2" background-size="cover"}
+# $\LaTeX$ {.bg-printers .big-title}
 
 "LaTeX (/ˈlɑːtɛk/ LAH-tek or /ˈleɪtɛk/ LAY-tek, often stylized as $\LaTeX$) is a software system for typesetting documents. LaTeX markup describes the content and layout of the document, as opposed to the formatted text found in WYSIWYG word processors[^1]."
 
-[^1]: https://en.wikipedia.org/wiki/LaTeX
+[^1]: <https://en.wikipedia.org/wiki/LaTeX>
 
-<br> <br> <br>
+# Why use $\LaTeX$? {.bg-printers}
 
-# The file structure {auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
+::: columns
+::: {.column width="50%"}
+**Strengths**
 
-<br> <br>
+::: incremental
+-   Beautiful mathematics
+-   Consistent formatting, automatically
+-   Numbering and cross-references that update themselves
+-   References and bibliographies managed for you
+-   Plain text: works well with version control
+:::
+:::
+
+::: {.column width="50%"}
+**Trade-offs**
+
+::: incremental
+-   A learning curve
+-   You write *markup*, then compile
+-   Fine layout control can be fiddly
+-   Not always ideal for heavily visual documents
+:::
+:::
+:::
+
+# How it works {.bg-printers}
+
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+  A[".tex file<br>+ .bib + images"] --> B["LaTeX engine<br>(e.g. pdfLaTeX)"]
+  B --> C["PDF"]
+  B --> D["Log:<br>warnings and errors"]
+```
+
+-   You edit **source**; the engine **compiles** it into a PDF
+-   If something is wrong, the **log** tells you where
+
+# Overleaf in 60 seconds {.bg-typer .overleaf-slide}
+
+::: incremental
+1.  **New Project** → blank project, or pick a **template**
+2.  **Editor** on the left, **PDF preview** on the right
+3.  **Recompile** after changes (`Ctrl/Cmd + Enter`)
+4.  **Logs and errors** appear under the preview. Fix the first error first
+5.  **File tree** (top left): upload images and `.bib` files here
+6.  **Menu**: choose the compiler, the main document and the TeX Live version
+:::
+
+# Working together in Overleaf {.bg-typer .overleaf-slide}
+
+::: incremental
+-   **Share** a project by link or by email, with edit or view-only rights
+-   **History** lets you see and restore earlier versions
+-   **Comments** can be attached to any piece of text
+-   **Track changes** and **Git/GitHub sync** are available on some plans
+:::
+
+::: aside
+Check which features your account or institution includes.
+:::
+
+# The file structure {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
 ::: incremental
 -   Document class
 -   Packages
--   Set metadata
+-   Metadata
 -   Begin/End document
 :::
 :::
@@ -58,60 +127,69 @@ highlight-style: atom-one
 
 \usepackage{amsmath}
 
-\title{\LaTeX}
+\title{My first document}
+\author{Your Name}
 
 \begin{document}
+
+\maketitle
 
 \end{document}
 ```
 :::
 :::
 
-# documentclass{} {auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
-
-<br>
+# `\documentclass{}` {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
-::: incremental
-This command defines the document type. The most frquently used are:
+This command defines the document type. The most frequently used are:
 
--   article
--   book
--   report
+::: incremental
+-   `article`
+-   `report`
+-   `book`
+-   `beamer` (slides)
 :::
+
+Options go in square brackets, e.g. `\documentclass[12pt,a4paper]{article}`
 :::
 
 ::: {.column width="50%"}
 <br>
 
-``` {.latex code-line-numbers="1"}
+``` {.latex code-line-numbers="1-1"}
 \documentclass{article}
 
 \usepackage{amsmath}
 
-\title{\LaTeX}
+\title{My first document}
+\author{Your Name}
 
 \begin{document}
+
+\maketitle
 
 \end{document}
 ```
 :::
 :::
 
-# usepackage{} {auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
-
-<br>
+# `\usepackage{}` {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
-::: incremental
-Packages are used to expand capabilities of $\LaTeX$. Some examples are:
+Packages expand the capabilities of $\LaTeX$. Some examples are:
 
--   amsmath
--   graphicx
--   xcolor
+::: incremental
+-   `amsmath`: advanced maths
+-   `graphicx`: images
+-   `xcolor`: colours
+-   `booktabs`: nicer tables
+-   `hyperref`: clickable links and references
 :::
+
+Packages are loaded in the **preamble**, before `\begin{document}`.
 :::
 
 ::: {.column width="50%"}
@@ -122,56 +200,61 @@ Packages are used to expand capabilities of $\LaTeX$. Some examples are:
 
 \usepackage{amsmath}
 
-\title{\LaTeX}
+\title{My first document}
+\author{Your Name}
 
 \begin{document}
+
+\maketitle
 
 \end{document}
 ```
 :::
 :::
 
-# Metadata {auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
-
-<br>
+# Metadata {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
-::: incremental
-These are defined in the preamble of the document and can be called in the main text.
+Defined in the preamble, and printed by `\maketitle` in the main text.
 
--   \\title
--   \\subtitle
--   \\author
+::: incremental
+-   `\title{}`
+-   `\author{}`
+-   `\date{}`: defaults to today; use `\date{}` to hide it
 :::
+
+Some classes and templates add more (e.g. `\subtitle{}`), but standard `article` does not have it.
 :::
 
 ::: {.column width="50%"}
 <br>
 
-``` {.latex code-line-numbers="5"}
+``` {.latex code-line-numbers="5-6,10"}
 \documentclass{article}
 
 \usepackage{amsmath}
 
-\title{\LaTeX}
+\title{My first document}
+\author{Your Name}
 
 \begin{document}
+
+\maketitle
 
 \end{document}
 ```
 :::
 :::
 
-# begin/end{} {auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
-
-<br>
+# `\begin{document}` / `\end{document}` {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
-::: incremental
-All elements withing these tags are part of the main text and will appear in the compiled file.
+Everything between these two lines is the main text and appears in the compiled PDF.
 
+::: incremental
+-   Text
 -   Equations
 -   Figures
 -   Tables
@@ -181,44 +264,107 @@ All elements withing these tags are part of the main text and will appear in the
 ::: {.column width="50%"}
 <br>
 
-``` {.latex code-line-numbers="7-9"}
+``` {.latex code-line-numbers="8,12"}
 \documentclass{article}
 
 \usepackage{amsmath}
 
-\title{\LaTeX}
+\title{My first document}
+\author{Your Name}
 
 \begin{document}
+
+\maketitle
 
 \end{document}
 ```
 :::
 :::
 
-# Mathematics {auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
-
-<br>
+# Sections, paragraphs and text {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
 ::: incremental
--   Inline expressions
-    -   These go between two \$ signs
--   Math mode
-    -   This used begin{equation} command
+-   `\section{}`, `\subsection{}` create numbered headings
+-   `\tableofcontents` builds the contents list. Compile twice to update it
+-   A **blank line** starts a new paragraph
+-   `\textbf{}` for bold, `\emph{}` for emphasis
 :::
 :::
 
 ::: {.column width="50%"}
-``` {.latex code-line-numbers="5,7-9"}
+``` {.latex code-line-numbers="5,7,9,11"}
 \documentclass{article}
 
 \begin{document}
 
-Inline math $E = mc^2$
+\tableofcontents
+
+\section{Introduction}
+This is a paragraph. A blank line
+starts a new one. Use \textbf{bold}
+and \emph{emphasis}.
+
+\subsection{Background}
+More text.
+
+\end{document}
+```
+:::
+:::
+
+# Lists {.bg-typer}
+
+::: columns
+::: {.column width="50%"}
+::: incremental
+-   `itemize` gives bullet points
+-   `enumerate` gives numbered items
+-   Each entry starts with `\item`
+-   Lists can be nested
+:::
+:::
+
+::: {.column width="50%"}
+``` latex
+\begin{itemize}
+  \item First point
+  \item Second point
+\end{itemize}
+
+\begin{enumerate}
+  \item Step one
+  \item Step two
+\end{enumerate}
+```
+:::
+:::
+
+# Mathematics {.bg-typer}
+
+::: columns
+::: {.column width="50%"}
+::: incremental
+-   **Inline** expressions go between two `$` signs
+-   **Display** equations use the `equation` environment
+    -   Numbered automatically
+    -   `equation*` (needs `amsmath`) is unnumbered
+-   `align` lines up multi-line equations
+:::
+:::
+
+::: {.column width="50%"}
+``` {.latex code-line-numbers="6,8-10"}
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+Inline math: $E = mc^2$
 
 \begin{equation}
-E = mc^2
+  E = mc^2
 \end{equation}
 
 \end{document}
@@ -226,32 +372,45 @@ E = mc^2
 :::
 :::
 
-# Cross referencing {auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
+# Maths cheat sheet {.bg-typer}
 
-<br>
+| You want         | You type                        |
+|------------------|---------------------------------|
+| Fraction         | `\frac{a}{b}`                   |
+| Superscript      | `x^2`, `x^{10}`                 |
+| Subscript        | `x_i`, `x_{ij}`                 |
+| Square root      | `\sqrt{x}`                      |
+| Sum              | `\sum_{i=1}^{n} x_i`            |
+| Greek letter     | `\alpha`, `\beta`, `\Omega`     |
+
+# Cross-referencing {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
-::: incremental
-Equations can be called from the main text.
+Equations can be referred to from the main text.
 
--   This can be achieved with two commands:
-    -   label{}
-    -   ref{}
+::: incremental
+-   Two commands do the job:
+    -   `\label{}` names the equation
+    -   `\ref{}` points to it
+-   Put `\label` **inside** the environment
+-   Use `~` before `\ref` to avoid a line break
+-   Compile **twice** so numbers update
 :::
 :::
 
 ::: {.column width="50%"}
-``` {.latex code-line-numbers="5,7-10"}
+``` {.latex code-line-numbers="6,8-11"}
 \documentclass{article}
+\usepackage{amsmath}
 
 \begin{document}
 
-Call eq. \ref{eq:energy}.
+Energy is given by Eq.~\ref{eq:energy}.
 
 \begin{equation}
-E = mc^2
-\label{eq:energy}
+  E = mc^2
+  \label{eq:energy}
 \end{equation}
 
 \end{document}
@@ -259,102 +418,215 @@ E = mc^2
 :::
 :::
 
-#  {.smaller auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
+# Maths symbols {.bg-typer}
 
-A non-exaustive list of symbols[^2]
+A non-exhaustive list of symbols[^2]
 
 [^2]: More here: <https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols>
 
 ::: columns
 ::: {.column width="50%"}
-::: incremental
-![](greek.png){fig-align="center"}
-:::
+![](greek.png){height=440 fig-align="center" fig-alt="Table of Greek letters with the LaTeX command for each, for example \\alpha, \\beta, \\gamma."}
 :::
 
 ::: {.column width="50%"}
-![](bin.png){fig-align="center"}
+![](bin.png){height=440 fig-align="center" fig-alt="Table of binary operation and relation symbols with their LaTeX commands, for example \\times, \\cdot, \\leq, \\neq."}
 :::
 :::
 
-# Figures {.smaller auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
-
-<br>
+# Figures {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
 ::: incremental
--   Defined with begin{figure}
-    -   h is for here. Check docs for additional options
--   \\includegraphics actually includes the image
-    -   Set fig dimensions inside \[\]
-    -   Indicate filename inside {}
--   label works in a similar way to the equations environment
+-   `figure` is a *float*: $\LaTeX$ decides where it lands
+    -   `[htbp]` = here, top, bottom, own page
+-   `\includegraphics` inserts the image
+    -   Dimensions go inside `[ ]`
+    -   The filename goes inside `{ }`
+    -   Upload the image to your Overleaf project first
+-   `\caption{}` first, then `\label{}`
+-   Refer to it with `Figure~\ref{fig:myfig1}`
 :::
 :::
 
 ::: {.column width="50%"}
-``` {.latex code-line-numbers="3,7-10"}
+``` {.latex code-line-numbers="2,6-11,13"}
 \documentclass{article}
-
 \usepackage{graphicx}
 
 \begin{document}
 
-\begin{figure}[h]
-\includegraphics[width=8cm]{myplot}
-\label{fig:myfig1}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=8cm]{myplot}
+  \caption{My plot.}
+  \label{fig:myfig1}
 \end{figure}
+
+See Figure~\ref{fig:myfig1}.
 
 \end{document}
 ```
 :::
 :::
 
-# $Bib\TeX$ {auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
-
-::: incremental
--   $Bib\TeX$ is a bibliography database file format.
--   It is used in $LaTeX$ as basis for citations and referencing.
--   $Bib\TeX$ files are often saved with the .bib extension.
--   They have JSON-like semistructured format.
--   Luckily we do not have to worry too much about those as most *reference managers* and journal websites can produce .bib files.
-:::
-
-# References {.smaller auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
-
-<br>
+# Tables {.bg-typer}
 
 ::: columns
 ::: {.column width="50%"}
 ::: incremental
-- bibliographystyle{plain} defines the citation styles.
-  + There are several styles already included on $\LaTeX$.
-  + More styles can be included with .bst files.
-- bibliography{refs} generates a list of references cited in text and obtains $Bib\TeX$ information from refs.bib file.
-  + cite{} is used for citations. The name in brackets refers to the label defined in the .bib file.
-
+-   `table` is a float, like `figure`
+-   `tabular` draws the table itself
+    -   `{lcc}`: one letter per column: left, centre, right
+    -   `&` separates cells, `\\` ends a row
+-   `booktabs` gives clean rules: `\toprule`, `\midrule`, `\bottomrule`
+-   Put `\caption` and `\label` **above** the table (usual convention)
 :::
 :::
 
 ::: {.column width="50%"}
-``` {.latex code-line-numbers="5,7-9"}
+``` {.latex code-line-numbers="2,10-17"}
 \documentclass{article}
+\usepackage{booktabs}
 
 \begin{document}
 
-As previously seen elsewhere \cite{franca2024}.
+\begin{table}[htbp]
+  \centering
+  \caption{Results.}
+  \label{tab:results}
+  \begin{tabular}{lcc}
+    \toprule
+    Group & Mean & SD \\
+    \midrule
+    A & 1.2 & 0.3 \\
+    B & 1.8 & 0.4 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
-\bibliographystyle{plain}
-\bibliography{refs} 
 \end{document}
 ```
 :::
 :::
 
-# Practical session {.smaller auto-animate="true" background-color="white" background-image="typer.jpeg" background-opacity="0.2" background-size="cover"}
+# $Bib\TeX$ {.bg-typer}
 
-<br>
-<br>
+::: columns
+::: {.column width="50%"}
+::: incremental
+-   $Bib\TeX$ is a bibliography database file format
+-   It is the basis for citations and references in $\LaTeX$
+-   Files are saved with the `.bib` extension
+-   Each entry has a type, a **key** and `field = {value}` pairs
+-   You rarely type these by hand: reference managers, Google Scholar and journal websites can export `.bib`
+:::
+:::
 
-![](https://images.ctfassets.net/nrgyaltdicpt/6gsvc5Ogjmu04I4Miu0uGg/cb1d4391717d2ab8d5e42ede6fb0eef1/overleaf_wide_colour_light_bg.png){fig-align="center"}
+::: {.column width="50%"}
+``` bibtex
+@article{smith2024,
+  author  = {Smith, Jane},
+  title   = {An example article},
+  journal = {Journal of Examples},
+  year    = {2024}
+}
+```
+:::
+:::
+
+# References {.bg-typer}
+
+::: columns
+::: {.column width="50%"}
+::: incremental
+-   `\bibliographystyle{plain}` sets the citation style
+    -   Several styles are built in
+    -   More can be added with `.bst` files
+-   `\bibliography{refs}` prints the references cited and reads `refs.bib`
+-   `\cite{}` cites an entry. The text in braces is the key from the `.bib` file
+-   After adding citations, recompile (sometimes twice) so they resolve
+:::
+:::
+
+::: {.column width="50%"}
+``` {.latex code-line-numbers="6,8-9"}
+\documentclass{article}
+
+\begin{document}
+
+As previously seen elsewhere
+\cite{smith2024}.
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}
+```
+:::
+:::
+
+# $Bib\TeX$ or `biblatex`? {.bg-typer}
+
+::: columns
+::: {.column width="50%"}
+::: incremental
+-   **$Bib\TeX$** (with `natbib`): long-established. Many journal templates require it
+-   **`biblatex`**: more flexible styles and easier customisation
+-   Both use the same `.bib` file
+-   When using a journal template, **follow its instructions**
+:::
+:::
+
+::: {.column width="50%"}
+``` latex
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{refs.bib}
+
+...
+
+\parencite{smith2024}
+
+\printbibliography
+```
+:::
+:::
+
+# When things go wrong {.bg-typer}
+
+Read the **first** error in the log: later ones are often knock-on effects.
+
+| Message                      | Usual cause                                                     |
+|------------------------------|-----------------------------------------------------------------|
+| `Undefined control sequence` | Typo in a command, or a missing `\usepackage`                   |
+| `Missing $ inserted`         | `_` or `^` (or a maths symbol) used outside maths mode          |
+| `File not found`             | Wrong image name or path, or the file was not uploaded          |
+| `Runaway argument` / `Missing }` | Unbalanced braces                                           |
+| `\begin{x}` ended by `\end{y}` | A missing or mismatched `\end`                                |
+| `??` in the PDF              | A `\ref` or `\cite` that has not resolved yet: recompile        |
+
+Special characters need a backslash: `\%`, `\&`, `\$`, `\#`, `\_`, `\{`, `\}`
+
+# Practical session {.bg-typer .overleaf-slide}
+
+::: incremental
+1.  Create a **new blank project** and compile "Hello, world"
+2.  Add a title, author and date with `\maketitle`
+3.  Add two **sections** and a bulleted list
+4.  Write the quadratic formula as a **numbered equation** and refer to it in the text
+5.  Upload an image and insert it as a **figure** with a caption
+6.  Build a small **table** with `booktabs`
+7.  Create `refs.bib`, add one entry and **cite** it
+:::
+
+**Stretch:** try a journal template, or switch to `biblatex`
+
+# Where to go next {.bg-typer}
+
+::: incremental
+-   **Overleaf Learn**: <https://www.overleaf.com/learn>, with tutorials and a reference for most things
+-   **Detexify**: <https://detexify.kirelabs.org>, draw a symbol to find its command
+-   **TeX Stack Exchange**: <https://tex.stackexchange.com>, searchable answers to most questions
+-   **CTAN**: <https://ctan.org>, package documentation
+:::

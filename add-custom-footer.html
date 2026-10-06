@@ -18,7 +18,25 @@
       });
   };
 
+  // Show the Overleaf logo (styled in custom.scss) in the top-right corner
+  // on any slide tagged with {.overleaf-slide}.
+  function add_overleaf_logo() {
+    let logo = document.createElement('div');
+    logo.className = 'overleaf-corner';
+    logo.setAttribute('aria-hidden', 'true');
+    document.querySelector('.reveal').appendChild(logo);
+
+    const update = (slide) => {
+      logo.classList.toggle('visible',
+        !!slide && slide.classList.contains('overleaf-slide'));
+    };
+
+    update(Reveal.getCurrentSlide());
+    Reveal.on('slidechanged', event => update(event.currentSlide));
+  };
+
   window.addEventListener("load", (event) => {
     add_custom_footer();
+    add_overleaf_logo();
   });
 </script>
